@@ -48,13 +48,3 @@ async def main():
 
 loop = get_event_loop()
 loop.run_until_complete(main())
-
-
-'''
-driver = webdriver.Chrome()
-
-driver.get('')
-
-std_wait = WebDriverWait(driver, 5)
-ext_wait = WebDriverWait(driver, 10)
-'''
