@@ -2,6 +2,8 @@ from requests import get as rget
 from requests.structures import CaseInsensitiveDict
 from datetime import datetime, timezone, timedelta, time
 from dateutil import tz
+from calendar import timegm
+from googletrans import Translator
 
 __author__ = "GuruPrasaath Manirajan"
 
@@ -24,8 +26,22 @@ class scheduleTSU:
 
 		return yandexRequest.json()["text"][0]
 
+	def getWeek(self):
+		dt = datetime.utcnow().date()
+
+		dt = datetime.combine(dt, time(hour=0, minute=0, second=0))
+		dt.replace(tzinfo=timezone.utc).timestamp()
+
+		start = dt - timedelta(days=dt.weekday())
+		end = start + timedelta(days=6)
+
+		start = timegm(start.utctimetuple())
+		end = timegm(end.utctimetuple()) - 1
+
+		return (start, end)
+
 	def requestWeeklySchedule(self):
-		url = "https://intime.tsu.ru/api/schedule/group/4e0e15aa-0699-11ec-816a-005056bc249c?dateStart=1630281600&dateEnd=1630799999"
+		url = "https://intime.tsu.ru/api/schedule/group/4e0e15aa-0699-11ec-816a-005056bc249c"
 
 		headers = CaseInsensitiveDict()
 		headers["Connection"] = "keep-alive"
@@ -39,7 +55,10 @@ class scheduleTSU:
 		headers["Referer"] = "https://intime.tsu.ru/schedule/group/4e0e15aa-0699-11ec-816a-005056bc249c?name=972105"
 		headers["Accept-Language"] = "en-US,en;q=0.9"
 
-		resp = rget(url, headers=headers)
+		currentWeek = self.getWeek()
+		params = {"dateStart":currentWeek[0], "dateEnd":currentWeek[1]}
+
+		resp = rget(url, headers=headers, params=params)
 
 		return resp.json()
 
