@@ -17,7 +17,7 @@ class scheduleTSU:
 	def toEnglish(self, russianText):
 		url = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
 		params = {
-			"key":"trnsl.1.1.20210903T155007Z.ca995aee2a661b20.5d5215852af62a9433a3927c2855c9ec0949ec31",
+			"key":"[YOUR API KEY]",
 			"text":russianText,
 			"lang":"ru-en",
 			"format":"plain"
