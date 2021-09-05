@@ -3,7 +3,6 @@ from requests.structures import CaseInsensitiveDict
 from datetime import datetime, timezone, timedelta, time
 from dateutil import tz
 from calendar import timegm
-from googletrans import Translator
 
 __author__ = "GuruPrasaath Manirajan"
 
